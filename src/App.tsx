@@ -119,7 +119,7 @@ export default function App() {
           </div>
 
           {/* Date & time controls */}
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-end gap-2 mb-5">
             <DatePicker value={baseDate} onChange={setBaseDate} />
             <button
               onClick={handleSetNow}
