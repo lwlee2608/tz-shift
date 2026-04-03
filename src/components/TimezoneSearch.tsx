@@ -14,13 +14,14 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const filtered = query.length > 0
-    ? TIMEZONE_DATABASE.filter(tz =>
-        !existingIds.has(tz.id) && (
-          tz.city.toLowerCase().includes(query.toLowerCase()) ||
-          tz.label.toLowerCase().includes(query.toLowerCase()) ||
-          tz.iana.toLowerCase().includes(query.toLowerCase())
-        )
-      ).slice(0, 8)
+    ? TIMEZONE_DATABASE.filter(tz => {
+        if (existingIds.has(tz.id)) return false;
+        const q = query.toLowerCase();
+        return tz.city.toLowerCase().includes(q) ||
+          tz.label.toLowerCase().includes(q) ||
+          tz.iana.toLowerCase().includes(q) ||
+          tz.aliases?.some(a => a.toLowerCase().includes(q));
+      }).slice(0, 8)
     : [];
 
   const handleSelect = useCallback((tz: TimezoneInfo) => {

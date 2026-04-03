@@ -3,14 +3,15 @@ export interface TimezoneInfo {
   label: string;
   city: string;
   iana: string;
+  aliases?: string[];
 }
 
 export const TIMEZONE_DATABASE: TimezoneInfo[] = [
   { id: 'utc', label: 'UTC', city: 'UTC', iana: 'UTC' },
-  { id: 'us-pacific', label: 'PT', city: 'Los Angeles', iana: 'America/Los_Angeles' },
-  { id: 'us-mountain', label: 'MT', city: 'Denver', iana: 'America/Denver' },
-  { id: 'us-central', label: 'CT', city: 'Chicago', iana: 'America/Chicago' },
-  { id: 'us-eastern', label: 'ET', city: 'New York', iana: 'America/New_York' },
+  { id: 'us-pacific', label: 'PT', city: 'Los Angeles', iana: 'America/Los_Angeles', aliases: ['San Francisco', 'Seattle', 'Portland', 'San Jose', 'San Diego', 'Las Vegas'] },
+  { id: 'us-mountain', label: 'MT', city: 'Denver', iana: 'America/Denver', aliases: ['Phoenix', 'Salt Lake City', 'Boise'] },
+  { id: 'us-central', label: 'CT', city: 'Chicago', iana: 'America/Chicago', aliases: ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Minneapolis'] },
+  { id: 'us-eastern', label: 'ET', city: 'New York', iana: 'America/New_York', aliases: ['Boston', 'Washington DC', 'Miami', 'Atlanta', 'Philadelphia', 'Detroit'] },
   { id: 'us-hawaii', label: 'HT', city: 'Honolulu', iana: 'Pacific/Honolulu' },
   { id: 'us-alaska', label: 'AKT', city: 'Anchorage', iana: 'America/Anchorage' },
   { id: 'canada-atlantic', label: 'AT', city: 'Halifax', iana: 'America/Halifax' },
