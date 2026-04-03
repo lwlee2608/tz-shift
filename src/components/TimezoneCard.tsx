@@ -78,12 +78,16 @@ export function TimezoneCard({
       {/* Remove button */}
       <button
         onClick={onRemove}
-        className="absolute top-3 right-3 w-6 h-6 rounded-md flex items-center justify-center
-          text-text-muted hover:text-text-primary hover:bg-bg-hover
-          opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+        aria-label={`Remove ${city}`}
+        className="absolute top-2.5 right-2.5 z-10 w-5 h-5 rounded-md border border-border-light
+          bg-bg-secondary/90 flex items-center justify-center text-text-secondary
+          opacity-0 scale-95 pointer-events-none
+          group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto
+          group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:pointer-events-auto
+          hover:text-text-primary hover:bg-bg-hover transition-all cursor-pointer"
         title="Remove"
       >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M2 2l8 8M10 2L2 10" />
         </svg>
       </button>
