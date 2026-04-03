@@ -79,7 +79,7 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Add city or timezone..."
-          className="w-full pl-10 pr-4 py-3 bg-bg-secondary border border-border rounded-xl
+          className="w-full pl-10 pr-4 py-2.5 bg-bg-secondary border border-border rounded-lg
             text-sm text-text-primary placeholder:text-text-muted
             focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/20
             transition-all"
@@ -87,13 +87,13 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
       </div>
 
       {isOpen && filtered.length > 0 && (
-        <div className="dropdown-enter absolute top-full left-0 right-0 mt-2 bg-bg-secondary border border-border rounded-xl overflow-hidden shadow-2xl z-50">
+        <div className="dropdown-enter absolute top-full left-0 right-0 mt-1.5 bg-bg-secondary border border-border rounded-lg overflow-hidden shadow-2xl z-50">
           {filtered.map((tz, i) => (
             <button
               key={tz.id}
               onClick={() => handleSelect(tz)}
               onMouseEnter={() => setHighlightIndex(i)}
-              className={`w-full px-4 py-3 flex items-center justify-between text-left transition-colors cursor-pointer
+              className={`w-full px-4 py-2.5 flex items-center justify-between text-left transition-colors cursor-pointer
                 ${i === highlightIndex ? 'bg-bg-hover' : 'hover:bg-bg-hover'}
                 ${i !== filtered.length - 1 ? 'border-b border-border' : ''}
               `}

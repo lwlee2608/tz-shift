@@ -64,47 +64,37 @@ export default function App() {
   };
 
   return (
-    <div className="grain min-h-screen flex flex-col items-center">
-      {/* Header */}
-      <header className="w-full border-b border-border">
-        <div className="w-full max-w-3xl mx-auto px-5 py-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-1">
-            <div className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent-glow)]" />
-            <span className="text-xs font-mono text-text-muted tracking-[0.2em] uppercase">
-              Timezone Converter
-            </span>
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold tracking-tight text-text-primary">
-            tz<span className="text-accent">shift</span>
-          </h1>
-          <p className="text-sm text-text-secondary mt-2 mx-auto max-w-md">
-            Compare times across the world. Drag any slider to see all zones update in sync.
-          </p>
-        </div>
-      </header>
-
-      {/* Toolbar */}
+    <div className="min-h-screen flex flex-col items-center">
+      {/* Combined header + toolbar */}
       <div className="w-full sticky top-0 z-40 bg-bg-primary/80 backdrop-blur-xl border-b border-border">
-        <div className="w-full max-w-3xl mx-auto px-5 py-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <div className="flex-1">
-            <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
+        <div className="w-full max-w-3xl mx-auto px-5 py-3">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_var(--color-accent-glow)]" />
+              <h1 className="font-display text-xl font-semibold tracking-tight text-text-primary">
+                tz<span className="text-accent">shift</span>
+              </h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <DatePicker value={baseDate} onChange={setBaseDate} />
+              <button
+                onClick={handleSetNow}
+                className="px-3 py-2 text-xs font-mono text-text-muted hover:text-accent
+                  bg-bg-secondary border border-border rounded-lg hover:border-border-light
+                  transition-all cursor-pointer whitespace-nowrap"
+              >
+                now
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <DatePicker value={baseDate} onChange={setBaseDate} />
-            <button
-              onClick={handleSetNow}
-              className="px-3 py-3 text-xs font-mono text-text-muted hover:text-accent
-                bg-bg-secondary border border-border rounded-xl hover:border-border-light
-                transition-all cursor-pointer whitespace-nowrap"
-            >
-              now
-            </button>
+          <div className="mt-2.5">
+            <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
           </div>
         </div>
       </div>
 
       {/* Timezone cards */}
-      <main className="w-full max-w-3xl mx-auto px-5 py-6 space-y-4">
+      <main className="w-full max-w-3xl mx-auto px-5 py-5 space-y-3">
         {timezones.map((tz, i) => (
           <TimezoneCard
             key={tz.key}
@@ -121,21 +111,17 @@ export default function App() {
 
         {timezones.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-text-muted text-sm">No timezones added.</p>
-            <p className="text-text-muted text-xs mt-1">Use the search bar above to add a city.</p>
+            <p className="text-text-secondary text-sm">No timezones added</p>
+            <p className="text-text-muted text-xs mt-1">Search above to add a city</p>
           </div>
         )}
       </main>
 
       {/* Footer */}
       <footer className="w-full border-t border-border mt-auto">
-        <div className="w-full max-w-3xl mx-auto px-5 py-6 flex items-center justify-center gap-4">
+        <div className="w-full max-w-3xl mx-auto px-5 py-4 flex items-center justify-center">
           <span className="text-xs text-text-muted">
-            <span className="font-display italic text-text-secondary">tzshift</span>
-            {' '}&mdash; drag to compare
-          </span>
-          <span className="text-xs font-mono text-text-muted">
-            {timezones.length} zone{timezones.length !== 1 ? 's' : ''}
+            tzshift &middot; {timezones.length} zone{timezones.length !== 1 ? 's' : ''}
           </span>
         </div>
       </footer>

@@ -29,7 +29,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
   return (
     <div className="flex items-center gap-2">
       <div className="relative">
-        <label className="flex items-center gap-2 px-4 py-3 bg-bg-secondary border border-border rounded-xl cursor-pointer hover:border-border-light transition-colors">
+        <label className="flex items-center gap-2 px-3 py-2 bg-bg-secondary border border-border rounded-lg cursor-pointer hover:border-border-light transition-colors">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent flex-shrink-0">
             <rect x="1" y="2.5" width="14" height="12" rx="2" />
             <path d="M1 6.5h14" />
@@ -46,8 +46,8 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
       </div>
       <button
         onClick={goToday}
-        className="px-3 py-3 text-xs font-mono text-text-muted hover:text-accent
-          bg-bg-secondary border border-border rounded-xl hover:border-border-light
+        className="px-3 py-2 text-xs font-mono text-text-muted hover:text-accent
+          bg-bg-secondary border border-border rounded-lg hover:border-border-light
           transition-all cursor-pointer whitespace-nowrap"
       >
         today

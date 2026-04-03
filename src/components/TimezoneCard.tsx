@@ -72,51 +72,51 @@ export function TimezoneCard({
 
   return (
     <div
-      className="card-enter bg-bg-card border border-border rounded-xl p-5 relative group transition-colors hover:border-border-light"
-      style={{ animationDelay: `${index * 80}ms`, animationFillMode: 'both' }}
+      className="card-enter bg-bg-card border border-border rounded-lg p-4 relative group transition-colors hover:border-border-light"
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
     >
       {/* Remove button */}
       <button
         onClick={onRemove}
-        className="absolute top-3 right-3 w-7 h-7 rounded-lg flex items-center justify-center
+        className="absolute top-3 right-3 w-6 h-6 rounded-md flex items-center justify-center
           text-text-muted hover:text-text-primary hover:bg-bg-hover
           opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
         title="Remove"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M2 2l10 10M12 2L2 12" />
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M2 2l8 8M10 2L2 10" />
         </svg>
       </button>
 
       {/* Header row */}
-      <div className="flex items-start justify-between mb-1">
+      <div className="flex items-start justify-between mb-2">
         <div className="flex-1 min-w-0">
-          <div className="flex items-baseline gap-3">
+          <div className="flex items-baseline gap-2.5">
             <h3 className="font-display text-2xl font-semibold text-text-primary tracking-tight">
               {city}
             </h3>
-            <span className="text-sm font-mono text-accent font-medium">{label}</span>
+            <span className="text-xs font-mono text-accent font-medium">{label}</span>
           </div>
-          <p className="text-sm text-text-secondary mt-0.5 truncate">{fullName}</p>
+          <p className="text-xs text-text-muted mt-0.5 truncate">{fullName}</p>
         </div>
 
         {/* Time display */}
         <div className="text-right flex-shrink-0 ml-4">
-          <div className={`flex items-baseline gap-0.5 ${isNight ? 'opacity-60' : ''}`}>
-            <span className="font-mono text-4xl font-light tracking-tight text-text-primary">
+          <div className={`flex items-baseline gap-0.5 ${isNight ? 'opacity-50' : ''}`}>
+            <span className="font-mono text-3xl font-light tracking-tight text-text-primary">
               {h}
             </span>
-            <span className="font-mono text-4xl font-light text-accent animate-pulse">:</span>
-            <span className="font-mono text-4xl font-light tracking-tight text-text-primary">
+            <span className="font-mono text-3xl font-light text-text-muted">:</span>
+            <span className="font-mono text-3xl font-light tracking-tight text-text-primary">
               {m}
             </span>
-            <span className="font-mono text-lg text-text-secondary ml-1.5 self-end mb-1">
+            <span className="font-mono text-base text-text-secondary ml-1.5 self-end mb-0.5">
               {period}
             </span>
           </div>
-          <div className="flex items-center gap-3 justify-end mt-0.5">
-            <span className="text-xs font-mono text-text-muted">{gmtLabel}</span>
-            <span className="text-xs text-text-secondary">{localDate}</span>
+          <div className="flex items-center gap-2.5 justify-end mt-0.5">
+            <span className="text-[11px] font-mono text-text-muted">{gmtLabel}</span>
+            <span className="text-[11px] text-text-muted">{localDate}</span>
           </div>
         </div>
       </div>
