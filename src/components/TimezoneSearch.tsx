@@ -64,9 +64,12 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div className="relative">
+      <div
+        className="flex items-center gap-2.5 pl-3.5 pr-4 py-2.5 bg-bg-secondary border border-border rounded-lg
+          focus-within:border-accent/50 focus-within:ring-1 focus-within:ring-accent/20 transition-all"
+      >
         <svg
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none"
+          className="text-text-muted pointer-events-none flex-shrink-0"
           width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"
         >
           <circle cx="7" cy="7" r="5" />
@@ -80,10 +83,7 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Add city or timezone..."
-          className="w-full pl-12 pr-4 py-2.5 bg-bg-secondary border border-border rounded-lg
-            text-sm text-text-primary placeholder:text-text-muted
-            focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/20
-            transition-all"
+          className="w-full bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
         />
       </div>
 
