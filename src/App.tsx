@@ -64,18 +64,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen w-full flex flex-col">
       {/* Combined header + toolbar */}
       <div className="w-full sticky top-0 z-40 bg-bg-primary/80 backdrop-blur-xl border-b border-border">
         <div className="w-full max-w-3xl mx-auto px-5 py-3">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <div className="flex items-center gap-2.5">
               <div className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_var(--color-accent-glow)]" />
               <h1 className="font-display text-xl font-semibold tracking-tight text-text-primary">
                 tz<span className="text-accent">shift</span>
               </h1>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <DatePicker value={baseDate} onChange={setBaseDate} />
               <button
                 onClick={handleSetNow}
@@ -87,44 +87,49 @@ export default function App() {
               </button>
             </div>
           </div>
-          <div className="mt-2.5">
-            <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
-          </div>
         </div>
       </div>
 
-      {/* Timezone cards */}
-      <main className="w-full max-w-3xl mx-auto px-5 py-5 space-y-3">
-        {timezones.map((tz, i) => (
-          <TimezoneCard
-            key={tz.key}
-            iana={tz.info.iana}
-            city={tz.info.city}
-            label={tz.info.label}
-            baseDate={baseDate}
-            utcMinutes={utcMinutes}
-            onUtcMinutesChange={setUtcMinutes}
-            onRemove={() => handleRemove(tz.key)}
-            index={i}
-          />
-        ))}
-
-        {timezones.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-text-secondary text-sm">No timezones added</p>
-            <p className="text-text-muted text-xs mt-1">Search above to add a city</p>
+      <div className="flex-1 w-full flex items-center justify-center px-5 py-6">
+        <div className="w-full max-w-3xl">
+          <div className="w-full mb-5">
+            <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
           </div>
-        )}
-      </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-border mt-auto">
-        <div className="w-full max-w-3xl mx-auto px-5 py-4 flex items-center justify-center">
-          <span className="text-xs text-text-muted">
-            tzshift &middot; {timezones.length} zone{timezones.length !== 1 ? 's' : ''}
-          </span>
+          {/* Timezone cards */}
+          <main className="space-y-3 w-full">
+            {timezones.map((tz, i) => (
+              <TimezoneCard
+                key={tz.key}
+                iana={tz.info.iana}
+                city={tz.info.city}
+                label={tz.info.label}
+                baseDate={baseDate}
+                utcMinutes={utcMinutes}
+                onUtcMinutesChange={setUtcMinutes}
+                onRemove={() => handleRemove(tz.key)}
+                index={i}
+              />
+            ))}
+
+            {timezones.length === 0 && (
+              <div className="text-center py-20">
+                <p className="text-text-secondary text-sm">No timezones added</p>
+                <p className="text-text-muted text-xs mt-1">Search above to add a city</p>
+              </div>
+            )}
+          </main>
+
+          {/* Footer */}
+          <footer className="w-full border-t border-border mt-6">
+            <div className="w-full px-5 py-4 flex items-center justify-center">
+              <span className="text-xs text-text-muted">
+                tzshift &middot; {timezones.length} zone{timezones.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          </footer>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }
