@@ -92,7 +92,7 @@ export default function App() {
 
       <div className="flex-1 w-full flex items-center justify-center px-5 py-6">
         <div className="w-full max-w-3xl">
-          <div className="w-full mb-5">
+          <div className="w-full" style={{ marginBottom: '1.25rem' }}>
             <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
           </div>
 
