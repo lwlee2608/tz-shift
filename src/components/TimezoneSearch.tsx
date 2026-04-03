@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { TIMEZONE_DATABASE, type TimezoneInfo } from '../timezones';
 
 interface TimezoneSearchProps {
@@ -6,12 +6,20 @@ interface TimezoneSearchProps {
   existingIds: Set<string>;
 }
 
-export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
+export interface TimezoneSearchHandle {
+  focus: () => void;
+}
+
+export const TimezoneSearch = forwardRef<TimezoneSearchHandle, TimezoneSearchProps>(function TimezoneSearch({ onSelect, existingIds }, ref) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current?.focus(),
+  }));
 
   const filtered = query.length > 0
     ? TIMEZONE_DATABASE.filter(tz => {
@@ -110,4 +118,4 @@ export function TimezoneSearch({ onSelect, existingIds }: TimezoneSearchProps) {
       )}
     </div>
   );
-}
+});

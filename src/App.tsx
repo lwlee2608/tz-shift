@@ -1,6 +1,6 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { TimezoneCard } from './components/TimezoneCard';
-import { TimezoneSearch } from './components/TimezoneSearch';
+import { TimezoneSearch, type TimezoneSearchHandle } from './components/TimezoneSearch';
 import { DatePicker } from './components/DatePicker';
 import { TIMEZONE_DATABASE, type TimezoneInfo } from './timezones';
 
@@ -56,9 +56,24 @@ export default function App() {
     return d;
   });
 
+  const searchRef = useRef<TimezoneSearchHandle>(null);
+
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(timezones.map(tz => tz.info.id)));
   }, [timezones]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+        const tag = (e.target as HTMLElement).tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   const existingIds = useMemo(
     () => new Set(timezones.map(tz => tz.info.id)),
@@ -123,7 +138,7 @@ export default function App() {
       <div className="flex-1 w-full flex items-center justify-center px-5 py-6">
         <div className="w-full max-w-3xl">
           <div className="w-full" style={{ marginBottom: '1.25rem' }}>
-            <TimezoneSearch onSelect={handleAddTimezone} existingIds={existingIds} />
+            <TimezoneSearch ref={searchRef} onSelect={handleAddTimezone} existingIds={existingIds} />
           </div>
 
           {/* Date & time controls */}
@@ -163,16 +178,17 @@ export default function App() {
             )}
           </main>
 
-          {/* Footer */}
-          <footer className="w-full border-t border-border mt-6">
-            <div className="w-full px-5 py-4 flex items-center justify-center">
-              <span className="text-xs text-text-muted">
-                tzshift
-              </span>
-            </div>
-          </footer>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="w-full border-t border-border">
+        <div className="w-full px-8 py-3 flex items-center justify-end">
+          <span className="text-xs text-text-muted">
+            Press <kbd className="px-1.5 py-0.5 bg-bg-secondary border border-border rounded text-[10px] font-mono">/</kbd> to search
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }
