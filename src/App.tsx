@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { TimezoneCard } from './components/TimezoneCard';
 import { TimezoneSearch } from './components/TimezoneSearch';
 import { DatePicker } from './components/DatePicker';
@@ -22,8 +22,22 @@ function getCurrentUtcMinutes(): number {
   return now.getUTCHours() * 60 + now.getUTCMinutes();
 }
 
-// Default: local timezone + UTC
-function getDefaultTimezones(): ActiveTimezone[] {
+const STORAGE_KEY = 'tzshift-zones';
+
+function loadTimezones(): ActiveTimezone[] {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const ids: string[] = JSON.parse(saved);
+      const zones: ActiveTimezone[] = [];
+      for (const id of ids) {
+        const match = TIMEZONE_DATABASE.find(tz => tz.id === id);
+        if (match) zones.push({ key: match.id, info: match });
+      }
+      if (zones.length > 0) return zones;
+    }
+  } catch {}
+  // Default: local timezone + UTC
   const local = getLocalTimezoneInfo();
   const zones: ActiveTimezone[] = [{ key: local.id, info: local }];
   if (local.iana !== 'UTC') {
@@ -34,13 +48,17 @@ function getDefaultTimezones(): ActiveTimezone[] {
 }
 
 export default function App() {
-  const [timezones, setTimezones] = useState<ActiveTimezone[]>(getDefaultTimezones);
+  const [timezones, setTimezones] = useState<ActiveTimezone[]>(loadTimezones);
   const [utcMinutes, setUtcMinutes] = useState(getCurrentUtcMinutes);
   const [baseDate, setBaseDate] = useState(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
     return d;
   });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(timezones.map(tz => tz.info.id)));
+  }, [timezones]);
 
   const existingIds = useMemo(
     () => new Set(timezones.map(tz => tz.info.id)),
