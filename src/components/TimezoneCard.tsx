@@ -94,7 +94,7 @@ export function TimezoneCard({
 
       {/* Header row */}
       <div className="flex items-start justify-between mb-2">
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0" style={{ marginLeft: '1.5rem' }}>
           <div className="flex items-baseline gap-2.5">
             <h3 className="font-display text-2xl font-semibold text-text-primary tracking-tight">
               {city}
@@ -105,7 +105,7 @@ export function TimezoneCard({
         </div>
 
         {/* Time display */}
-        <div className="text-right flex-shrink-0 ml-4">
+        <div className="text-right flex-shrink-0 ml-4" style={{ marginRight: '2rem' }}>
           <div className={`flex items-baseline gap-0.5 ${isNight ? 'opacity-50' : ''}`}>
             <span className="font-mono text-3xl font-light tracking-tight text-text-primary">
               {h}
