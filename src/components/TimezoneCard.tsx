@@ -54,10 +54,10 @@ export function TimezoneCard({
   const localMinute = localMinutes % 60;
   const { h, m, period } = formatTime(localHour, localMinute);
 
-  // Compute local date
+  // Compute local date: use selected date's Y/M/D to build UTC midnight,
+  // then add utcMinutes so Intl formats the correct calendar date per timezone.
   const localDate = useMemo(() => {
-    const d = new Date(baseDate);
-    d.setUTCHours(0, 0, 0, 0);
+    const d = new Date(Date.UTC(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate()));
     d.setUTCMinutes(utcMinutes);
     return formatDate(d, iana);
   }, [baseDate, utcMinutes, iana]);
