@@ -62,10 +62,10 @@ export function TimezoneCard({
     return formatDate(d, iana);
   }, [baseDate, utcMinutes, iana]);
 
-  // When the local slider changes, convert back to UTC minutes
+  // When the local slider changes, convert back to UTC minutes.
+  // Don't wrap — allow negative/overflow so the date calculation stays correct.
   const handleSliderChange = (localMins: number) => {
-    const utcMins = ((localMins - offsetMinutes) % 1440 + 1440) % 1440;
-    onUtcMinutesChange(utcMins);
+    onUtcMinutesChange(localMins - offsetMinutes);
   };
 
   const isNight = localHour < 6 || localHour >= 21;
