@@ -22,13 +22,21 @@ export const TimezoneSearch = forwardRef<TimezoneSearchHandle, TimezoneSearchPro
   }));
 
   const filtered = query.length > 0
-    ? TIMEZONE_DATABASE.filter(tz => {
-        if (existingIds.has(tz.id)) return false;
+    ? TIMEZONE_DATABASE.flatMap(tz => {
         const q = query.toLowerCase();
-        return tz.city.toLowerCase().includes(q) ||
-          tz.label.toLowerCase().includes(q) ||
-          tz.iana.toLowerCase().includes(q) ||
-          tz.aliases?.some(a => a.toLowerCase().includes(q));
+        const existing = existingIds.has(tz.id);
+        // Direct match on primary city, label, or IANA
+        if (tz.city.toLowerCase().includes(q) ||
+            tz.label.toLowerCase().includes(q) ||
+            tz.iana.toLowerCase().includes(q)) {
+          return [{ ...tz, displayCity: tz.city, alreadyAdded: existing }];
+        }
+        // Match on alias — show the matched alias as the display city
+        const matchedAlias = tz.aliases?.find(a => a.toLowerCase().includes(q));
+        if (matchedAlias) {
+          return [{ ...tz, displayCity: matchedAlias, alreadyAdded: existing }];
+        }
+        return [];
       }).slice(0, 8)
     : [];
 
@@ -100,16 +108,21 @@ export const TimezoneSearch = forwardRef<TimezoneSearchHandle, TimezoneSearchPro
           {filtered.map((tz, i) => (
             <button
               key={tz.id}
-              onClick={() => handleSelect(tz)}
+              onClick={() => !tz.alreadyAdded && handleSelect(tz)}
               onMouseEnter={() => setHighlightIndex(i)}
-              className={`w-full px-4 py-2.5 flex items-center justify-between text-left transition-colors cursor-pointer
-                ${i === highlightIndex ? 'bg-bg-hover' : 'hover:bg-bg-hover'}
+              disabled={tz.alreadyAdded}
+              className={`w-full px-4 py-2.5 flex items-center justify-between text-left transition-colors
+                ${tz.alreadyAdded ? 'opacity-50 cursor-default' : 'cursor-pointer'}
+                ${!tz.alreadyAdded && i === highlightIndex ? 'bg-bg-hover' : ''}
+                ${!tz.alreadyAdded ? 'hover:bg-bg-hover' : ''}
                 ${i !== filtered.length - 1 ? 'border-b border-border' : ''}
               `}
             >
               <div>
-                <span className="text-sm font-medium text-text-primary">{tz.city}</span>
+                <span className="text-sm font-medium text-text-primary">{tz.displayCity}</span>
+                {tz.displayCity !== tz.city && <span className="text-xs text-text-muted ml-1">({tz.city})</span>}
                 <span className="text-xs text-text-muted ml-2">{tz.iana}</span>
+                {tz.alreadyAdded && <span className="text-xs text-text-muted ml-2">— already added</span>}
               </div>
               <span className="text-xs font-mono text-accent">{tz.label}</span>
             </button>
